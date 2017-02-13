@@ -13,9 +13,9 @@ class UserStatistics
         $this->con = new Connection();
     }
 
-    public function getUserEntries()
+    public function getEntries()
     {
-        return $this->addTypedString($this->con->getUserEntries($this->user_id));
+        return $this->addTypedString($this->con->getEntries($this->user_id));
     }
 
     public function addTypedString($entries)

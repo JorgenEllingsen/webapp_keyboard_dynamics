@@ -43,10 +43,10 @@ class Connection
         return $event_type == 'keyup' ? 0 : 1;
     }
 
-    public function getUserEntries($user_id)
+    public function getEntries()
     {
-        $stmt = $this->con->prepare('SELECT * FROM entry WHERE user_id = ?');
-        $stmt->execute([$user_id]);
+        $stmt = $this->con->prepare('SELECT e.id as id, u.name as user, e.browser as browser, k.name as keyboard FROM entry e JOIN keyboard k on e.keyboard = k.id JOIN user u on e.user_id = u.id');
+        $stmt->execute();
         $entries = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         foreach ($entries as $key => $entry)
         {
@@ -55,5 +55,19 @@ class Connection
             $entries[$key]['events'] = $stmt->fetchAll(\PDO::FETCH_ASSOC);
         }
         return $entries;
+    }
+
+    public function getUserList()
+    {
+        $stmt = $this->con->prepare('SELECT * FROM user');
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
+    }
+
+    public function getKeyboardList()
+    {
+        $stmt = $this->con->prepare('SELECT * FROM keyboard');
+        $stmt->execute();
+        return $stmt->fetchAll(\PDO::FETCH_ASSOC);
     }
 }

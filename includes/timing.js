@@ -2,7 +2,7 @@ var EventBuffer = [];
 var last_event = null;
 
 function sendEvents(pending) {
-    $.post("post-endpoint.php", {data: JSON.stringify(pending)});
+    $.post("post-endpoint.php", {user: JSON.stringify($('#participant').val()), keyboard: JSON.stringify($('#keyboard').val()), events: JSON.stringify(pending)});
 }
 
 function StreamEvent(event) {
@@ -14,14 +14,23 @@ function StreamEvent(event) {
 
     if (event.key == 'Enter') {
         if (event.type == 'keyup') {
-            Pending = EventBuffer;
-            EventBuffer = [];
-            sendEvents(Pending);
+            if($('#participant').val() == 0 || $('#keyboard').val() == 0) alert('Please select participant and keyboard to submit.');
+            else
+            {
+                Pending = EventBuffer;
+                EventBuffer = [];
+                sendEvents(Pending);
+                $('#entries').prepend('<div class="entry">'+ $('p').text() +'</div>');
+                $('p').empty();
+            }
         }
     }
     else
     {
-        EventBuffer.push(ev);
+        if($('#participant').val() != 0 || $('#keyboard').val() != 0) {
+            if(event.type == 'keydown') $('p').append([ev.key]);
+            EventBuffer.push(ev);
+        }
     }
 
 
@@ -31,4 +40,3 @@ function StreamEvent(event) {
 
 $(document).keydown(StreamEvent);
 $(document).keyup(StreamEvent);
-

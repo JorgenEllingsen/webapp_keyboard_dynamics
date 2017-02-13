@@ -1,0 +1,21 @@
+.settings-div {
+    width: 600px;
+    margin: auto;
+}
+#text_box {
+    width: 100%;
+    background: red;
+}
+#text_box p {
+    color: blue;
+    font-size: 90px;
+    width: 100%;
+    text-align: center;
+}
+.entry
+{
+    background: ghostwhite;
+    margin: 5px;
+    text-align: center;
+    color: black;
+}
